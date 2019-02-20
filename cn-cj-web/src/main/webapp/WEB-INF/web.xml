@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns="http://java.sun.com/xml/ns/javaee"
+	xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd"
+	version="3.0" id="WebApp_ID">
+
+	<display-name>Archetype Created Web Application</display-name>
+	<welcome-file-list>
+	    <welcome-file>login.jsp</welcome-file>
+	</welcome-file-list>
+	
+	
+	
+	
+	<!-- Spring MVC servlet -->
+	<servlet>
+		<servlet-name>SpringMVC</servlet-name>
+		<servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
+		<init-param>
+			<param-name>contextConfigLocation</param-name>
+			<param-value>classpath:spring/spring-mvc.xml</param-value>
+		</init-param>
+		<load-on-startup>1</load-on-startup>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>SpringMVC</servlet-name>
+		<url-pattern>/</url-pattern>
+	</servlet-mapping>
+
+
+	<session-config>
+		<session-timeout>15</session-timeout>
+	</session-config>
+	<error-page>
+		<error-code>404</error-code>
+		<location>/WEB-INF/view/common/404.jsp</location>
+	</error-page>
+	<error-page>
+		<error-code>401</error-code>
+		<location>/WEB-INF/view/common/401.jsp</location>
+	</error-page>
+
+
+
+	<!-- Spring和mybatis的配置文件 -->
+	<context-param>
+		<param-name>contextConfigLocation</param-name>
+		<param-value>
+		classpath:spring/spring-mybatis.xml
+		classpath:solr/spring-solr.xml
+		</param-value>
+	</context-param>
+	<!-- Spring监听器 -->
+	<listener>
+		<listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
+	</listener>
+	
+	<filter>
+		<filter-name>shiroFilter</filter-name>
+		<filter-class>org.springframework.web.filter.DelegatingFilterProxy</filter-class>
+	</filter>
+	<filter-mapping>
+		<filter-name>shiroFilter</filter-name>
+		<url-pattern>/*</url-pattern>
+	</filter-mapping>
+	
+	
+	<!-- shiro监听配置 -->
+	<!-- <context-param> <param-name>shiroEnvironmentClass</param-name> <param-value>org.apache.shiro.web.env.IniWebEnvironment</param-value> 
+		</context-param> <context-param> <param-name>shiroConfigLocations</param-name> 
+		<param-value>classpath:conf/shiro.ini</param-value> </context-param> <listener> 
+		<listener-class>org.apache.shiro.web.env.EnvironmentLoaderListener</listener-class> 
+		</listener> <filter> <filter-name>ShiroFilter</filter-name> <filter-class>org.apache.shiro.web.servlet.ShiroFilter</filter-class> 
+		</filter> <filter-mapping> <filter-name></filter-name> <url-pattern>/</url-pattern> 
+		</filter-mapping> -->
+
+
+	<!-- 处理post乱码 -->
+	<filter>
+		<filter-name>encodingFilter</filter-name>
+		<filter-class>org.springframework.web.filter.CharacterEncodingFilter</filter-class>
+		<init-param>
+			<param-name>encoding</param-name>
+			<param-value>UTF-8</param-value>
+		</init-param>
+		<init-param>
+			<param-name>forceEncoding</param-name>
+			<param-value>true</param-value>
+		</init-param>
+	</filter>
+
+	<!-- 拦截器 -->
+	<filter-mapping>
+		<filter-name>encodingFilter</filter-name>
+		<url-pattern>/*</url-pattern>
+	</filter-mapping>
+
+
+	<!-- 日志记录 -->
+	<context-param>
+		<!-- 日志配置文件路径 -->
+		<param-name>log4jConfigLocation</param-name>
+		<param-value>classpath:conf/log4j.properties</param-value>
+	</context-param>
+	<context-param>
+		<!-- 日志页面的刷新间隔 -->
+		<param-name>log4jRefreshInterval</param-name>
+		<param-value>6000</param-value>
+	</context-param>
+	<listener>
+		<listener-class>org.springframework.web.util.Log4jConfigListener</listener-class>
+	</listener>
+
+	<!-- 防止Spring内存溢出监听器 -->
+	<listener>
+		<listener-class>org.springframework.web.util.IntrospectorCleanupListener</listener-class>
+	</listener>
+
+</web-app>

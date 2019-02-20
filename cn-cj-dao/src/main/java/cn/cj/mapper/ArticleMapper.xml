@@ -1,0 +1,246 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.cj.dao.ArticleMapper">
+	<resultMap id="BaseResultMap" type="cn.cj.entity.Article">
+		<id column="article_id" jdbcType="BIGINT" property="articleId" />
+		<result column="article_title" jdbcType="VARCHAR" property="articleTitle" />
+		<result column="article_label" jdbcType="VARCHAR" property="articleLabel" />
+		<result column="article_content" jdbcType="LONGVARCHAR" property="articleContent" />
+		<result column="article_create_time" jdbcType="TIMESTAMP"
+			property="articleCreateTime" />
+		<result column="article_creater" jdbcType="BIGINT" property="articleCreater" />
+		<result column="article_author" jdbcType="BIGINT" property="articleAuthor" />
+		<result column="article_delete_time" jdbcType="TIMESTAMP"
+			property="articleDeleteTime" />
+		<result column="article_deleter" jdbcType="BIGINT" property="articleDeleter" />
+		<result column="article_delete_flag" jdbcType="CHAR"
+			property="articleDeleteFlag" />
+		<result column="article_update_time" jdbcType="TIMESTAMP"
+			property="articleUpdateTime" />
+		<result column="article_updater" jdbcType="BIGINT" property="articleUpdater" />
+		<result column="article_praise" jdbcType="BIGINT" property="articlePraise" />
+		<result column="article_click_num" jdbcType="BIGINT" property="articleClickNum" />
+		<result column="article_bgimg" jdbcType="VARCHAR" property="articleBgimg" />
+		<result column="is_putaway" jdbcType="BIGINT" property="isPutaway" />
+		
+		<!-- 
+			column:作为select语句的参数
+			property:实体类属性
+			javaType:返回的实体类型
+			select:映射的语句
+		  	*	此方法需要在实体类写对应字段的getter setter
+		 -->
+		<!-- 作者映射 一对一 -->
+		<association column="article_author" property="userAuthor"  javaType="cn.cj.entity.User" select="cn.cj.dao.UserMapper.selectByPrimaryKey"></association>
+		<!-- 发布人映射 一对一 -->
+		<association column="article_author" property="userCreater" javaType="cn.cj.entity.User" select="cn.cj.dao.UserMapper.selectByPrimaryKey"></association>
+		<!-- 评论映射 一对多 -->
+		<collection column="article_id" property="commentList" ofType="Map" select="cn.cj.dao.CommentMapper.selectAllCommentByArticleId"></collection>
+	</resultMap>
+	<!-- <resultMap type="cn.cj.entity.Article" id="selectUserInfoAndArticle">
+		<association property="userAuthor" column="article_author" javaType="map" select="selectUserInfoByAuthor">
+		</association>
+		<association property="userCreater" column="article_author" javaType="map" select="selectUserInfoByCreater">
+		</association>
+	</resultMap>
+	<select id="selectUserInfoByAuthor" resultType="map">
+		select u.user_name from `user` u where u.user_id = #{article_author,jdbcType=BIGINT}
+	</select>
+	<select id="selectUserInfoByCreater" resultType="map">
+		select u.user_account from `user` u where u.user_id = #{article_author,jdbcType=BIGINT}
+	</select> -->
+	
+	<sql id="Base_Column_List">
+		article_id, article_title, article_label, article_create_time, article_creater,
+		article_author,article_content,
+		article_delete_time, article_deleter, article_delete_flag, article_update_time,
+		article_updater
+		article_praise, article_click_num,article_bgimg,is_putaway
+	</sql>
+	<select id="selectByPrimaryKey" parameterType="java.lang.Long"
+		resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from article
+		where article_id = #{articleId,jdbcType=BIGINT}
+	</select>
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+		delete from article
+		where article_id = #{articleId,jdbcType=BIGINT}
+	</delete>
+	<insert id="insertSelective" parameterType="cn.cj.entity.Article">
+		insert into article
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="articleId != null">
+				article_id,
+			</if>
+			<if test="articleTitle != null">
+				article_title,
+			</if>
+			<if test="articleLabel != null">
+				article_label,
+			</if>
+			<if test="articleCreateTime != null">
+				article_create_time,
+			</if>
+			<if test="articleCreater != null">
+				article_creater,
+			</if>
+			<if test="articleAuthor != null">
+				article_author,
+			</if>
+			<if test="articleDeleteTime != null">
+				article_delete_time,
+			</if>
+			<if test="articleDeleter != null">
+				article_deleter,
+			</if>
+			<if test="articleDeleteFlag != null">
+				article_delete_flag,
+			</if>
+			<if test="articleUpdateTime != null">
+				article_update_time,
+			</if>
+			<if test="articleUpdater != null">
+				article_updater,
+			</if>
+			<if test="articlePraise != null">
+				article_praise,
+			</if>
+			<if test="articleClickNum != null">
+				article_click_num,
+			</if>
+			<if test="articleContent != null">
+				article_content,
+			</if>
+			<if test="articleBgimg != null">
+				article_bgimg,
+			</if>
+			<if test="isPutaway != null">
+				is_putaway,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="articleId != null">
+				#{articleId,jdbcType=BIGINT},
+			</if>
+			<if test="articleTitle != null">
+				#{articleTitle,jdbcType=VARCHAR},
+			</if>
+			<if test="articleLabel != null">
+				#{articleLabel,jdbcType=VARCHAR},
+			</if>
+			<if test="articleCreateTime != null">
+				#{articleCreateTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="articleCreater != null">
+				#{articleCreater,jdbcType=BIGINT},
+			</if>
+			<if test="articleAuthor != null">
+				#{articleAuthor,jdbcType=BIGINT},
+			</if>
+			<if test="articleDeleteTime != null">
+				#{articleDeleteTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="articleDeleter != null">
+				#{articleDeleter,jdbcType=BIGINT},
+			</if>
+			<if test="articleDeleteFlag != null">
+				#{articleDeleteFlag,jdbcType=CHAR},
+			</if>
+			<if test="articleUpdateTime != null">
+				#{articleUpdateTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="articleUpdater != null">
+				#{articleUpdater,jdbcType=BIGINT},
+			</if>
+			<if test="articlePraise != null">
+				#{articlePraise,jdbcType=BIGINT},
+			</if>
+			<if test="articleClickNum != null">
+				#{articleClickNum,jdbcType=BIGINT},
+			</if>
+			<if test="articleContent != null">
+				#{articleContent,jdbcType=LONGVARCHAR},
+			</if>
+			<if test="articleBgimg != null">
+				#{articleBgimg,jdbcType=VARCHAR},
+			</if>
+			<if test="isPutaway != null">
+				#{isPutaway,jdbcType=BIGINT},
+			</if>
+		</trim>
+	</insert>
+	<update id="updateByPrimaryKey" parameterType="cn.cj.entity.Article">
+		update article
+		<set>
+			<if test="articleTitle != null">
+				article_title = #{articleTitle,jdbcType=VARCHAR},
+			</if>
+			<if test="articleLabel != null">
+				article_label = #{articleLabel,jdbcType=VARCHAR},
+			</if>
+			<if test="articleCreateTime != null">
+				article_create_time = #{articleCreateTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="articleCreater != null">
+				article_creater = #{articleCreater,jdbcType=BIGINT},
+			</if>
+			<if test="articleAuthor != null">
+				article_author = #{articleAuthor,jdbcType=BIGINT},
+			</if>
+			<if test="articleDeleteTime != null">
+				article_delete_time = #{articleDeleteTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="articleDeleter != null">
+				article_deleter = #{articleDeleter,jdbcType=BIGINT},
+			</if>
+			<if test="articleDeleteFlag != null">
+				article_delete_flag = #{articleDeleteFlag,jdbcType=CHAR},
+			</if>
+			<if test="articleUpdateTime != null">
+				article_update_time = #{articleUpdateTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="articleUpdater != null">
+				article_updater = #{articleUpdater,jdbcType=BIGINT},
+			</if>
+			<if test="articlePraise != null">
+				article_praise = #{articlePraise,jdbcType=BIGINT},
+			</if>
+			<if test="articleClickNum != null">
+				article_click_num = #{articleClickNum,jdbcType=BIGINT},
+			</if>
+			<if test="articleContent != null">
+				article_content = #{articleContent,jdbcType=LONGVARCHAR},
+			</if>
+			<if test="articleBgimg != null">
+				article_bgimg = #{articleBgimg,jdbcType=VARCHAR},
+			</if>
+			<if test="isPutaway != null">
+				is_putaway = #{isPutaway,jdbcType=BIGINT},
+			</if>
+		</set>
+		where article_id = #{articleId,jdbcType=BIGINT}
+	</update>
+	
+	
+	
+	
+	
+	<!-- 展示文章列表(后台) -->
+	<select id = "selectAllArticleInfo" resultMap = "BaseResultMap">
+		select * from article a 
+		where a.article_title like CONCAT('%',#{keyWords},'%') 
+		<if test="startTime!=null and startTime != null and endTime!='' and endTime!=null">
+			and a.article_create_time BETWEEN STR_TO_DATE(#{startTime},'%Y-%m-%d') AND STR_TO_DATE(#{endTime},'%Y-%m-%d')
+		</if>
+		order by article_create_time DESC
+		limit #{pageX},#{limit}
+	</select>
+	
+	<!-- 获取文章列表总数量(后台) -->
+	<select id = "selectArticleTotalCount" resultType="int">
+		select count(1) from article
+	</select>
+	
+</mapper>

@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.cj.dao.CommentMapper">
+	<resultMap id="BaseResultMap" type="cn.cj.entity.Comment">
+		<id column="comment_id" jdbcType="BIGINT" property="commentId" />
+		<result column="comment_content" jdbcType="VARCHAR" property="commentContent" />
+		<result column="commenter" jdbcType="BIGINT" property="commenter" />
+		<result column="article_id" jdbcType="BIGINT" property="articleId" />
+		<result column="comment_create_time" jdbcType="TIMESTAMP" property="commentCreateTime" />
+		<result column="praise_num" jdbcType="BIGINT" property="praiseNum" />
+		
+		<!-- 作者回复映射 一对一 -->
+		<association column="comment_id" jdbcType="BIGINT" property="reply" select="cn.cj.dao.ReplyMapper.selectReplyInfoByCommentId"></association>
+		<!-- 评论人 一对一 -->
+		<association column="commenter" jdbcType="BIGINT" property="commentor"  select="cn.cj.dao.UserMapper.selectByPrimaryKey"></association>
+	</resultMap>
+	
+	<sql id="Base_Column_List">
+		comment_id, comment_content, commenter, article_id,comment_create_time,praise_num
+	</sql>
+	
+	<select id="selectByPrimaryKey" parameterType="java.lang.Long"
+		resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from comment
+		where comment_id = #{commentId,jdbcType=BIGINT}
+	</select>
+	
+	
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+		delete from comment
+		where comment_id = #{commentId,jdbcType=BIGINT}
+	</delete>
+	
+	
+	<insert id="insertSelective" parameterType="cn.cj.entity.Comment">
+		insert into comment
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="commentId != null">
+				comment_id,
+			</if>
+			<if test="commentContent != null">
+				comment_content,
+			</if>
+			<if test="commenter != null">
+				commenter,
+			</if>
+			<if test="articleId != null">
+				article_id,
+			</if>
+			<if test="commentCreateTime != null">
+				comment_create_time,
+			</if>
+			<if test="praiseNum != null">
+				praise_num,
+			</if>
+			
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="commentId != null">
+				#{commentId,jdbcType=BIGINT},
+			</if>
+			<if test="commentContent != null">
+				#{commentContent,jdbcType=VARCHAR},
+			</if>
+			<if test="commenter != null">
+				#{commenter,jdbcType=BIGINT},
+			</if>
+			<if test="articleId != null">
+				#{articleCreateTime,jdbcType=BIGINT},
+			</if>
+			<if test="commentCreateTime != null">
+				#{commentCreateTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="praiseNum != null">
+				#{praiseNum,jdbcType=BIGINT},
+			</if>
+		</trim>
+	</insert>
+	
+	
+	<update id="updateByPrimaryKey" parameterType="cn.cj.entity.Comment">
+		update comment
+		<set>
+			<if test="commentContent != null">
+				comment_content = #{commentContent,jdbcType=VARCHAR},
+			</if>
+			<if test="commentCreateTime != null">
+				comment_create_time = #{commentCreateTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="articleId != null">
+				article_id = #{articleId,jdbcType=BIGINT},
+			</if>
+			<if test="commenter != null">
+				commenter = #{commenter,jdbcType=BIGINT},
+			</if>
+			<if test="praiseNum != null">
+				praise_num = #{praiseNum,jdbcType=BIGINT},
+			</if>
+		</set>
+		where comment_id = #{commentId,jdbcType=BIGINT}
+	</update>
+	
+	<!-- 通过文章Id查询所有的评论集合 -->
+	<select id="selectAllCommentByArticleId" resultMap="BaseResultMap" parameterType="int">
+		select * from comment where article_id = #{articleId,jdbcType=BIGINT}
+	</select>
+	
+</mapper>

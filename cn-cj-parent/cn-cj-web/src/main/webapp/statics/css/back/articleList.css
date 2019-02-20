@@ -1,0 +1,15 @@
+.yellow-skin .layui-layer-btn .layui-layer-btn0 {
+	background-color: rgb(254,189,23) !important;
+	border: 1px solid rgb(254,189,23) !important;
+	color: #FFF !important;
+}
+.red-skin .layui-layer-btn .layui-layer-btn0 {
+	background-color: red !important;
+	border: 1px solid red !important;
+	color: #FFF !important;
+}
+.blue-skin .layui-layer-btn .layui-layer-btn0 {
+	background-color: rgb(30,159,255) !important;
+	border: 1px solid rgb(30,159,255) !important;
+	color: #FFF !important;
+}

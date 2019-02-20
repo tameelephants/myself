@@ -1,0 +1,81 @@
+.layui-form-label {
+	width: 50px !important;
+	padding: 9px 0px !important;
+}
+
+.layui-input-block {
+	margin-left: 80px;
+}
+
+.textareaInput {
+	padding: 0px !important;
+}
+.file {
+	position: relative;
+	display: inline-block;
+	background: rgb(65, 167, 68);
+	border: rgb(65, 167, 68);
+	border-radius: 4px;
+	padding: 4px 12px;
+	overflow: hidden;
+	color: white;
+	text-decoration: none;
+	text-indent: 0;
+	line-height: 20px;
+}
+
+.a_controller input {
+	cursor: pointer;
+}
+
+.layui-card {
+	box-shadow: none;
+}
+
+.file input {
+	position: absolute;
+	font-size: 100px;
+	right: 0;
+	top: 0;
+	opacity: 0;
+}
+
+.file:hover {
+	background: #AADFFD;
+	border-color: #78C3F3;
+	color: #004974;
+	text-decoration: none;
+}
+
+.upload {
+	padding-right: 30px;
+	padding-top: 5px;
+	padding-left: 5px;
+	float: left;
+}
+
+.btn_controller {
+	margin-top: 20px;
+}
+
+.a_controller {
+	display: inline-block;
+	cursor: pointer;
+}
+
+.article_content {
+	display: inline-block;
+	padding: 24px;
+}
+
+.upload_controller {
+	margin-top: 20px;
+}
+
+#textarea {
+	width: 93.5%;
+	height: 800px;
+	display: inline-block;
+	border: 1px #e3e3e3 solid;
+	outline:none;
+}

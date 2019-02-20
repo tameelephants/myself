@@ -1,0 +1,71 @@
+*{
+	padding: 0px;
+	margin: 0px;
+}
+body{
+	font: 14px/1.5 "PingFang SC", "Lantinghei SC", "Microsoft YaHei", "HanHei SC", "Helvetica Neue", "Open Sans", Arial, "Hiragino Sans GB", 微软雅黑, STHeiti, "WenQuanYi Micro Hei", SimSun, sans-serif;
+}
+
+/*header nav*/
+#header{
+	background-color:rgb(51,51,51);
+}
+#header:after{
+	clear:both;
+	content:'';
+	display:block;
+}
+#header li{
+	list-style:none;
+	float:left;
+	color:#999;
+	margin:18px 0px 13px 50px;
+	cursor: pointer;
+}
+.daohang_ul{
+	margin-bottom: 0px !important;
+}
+.daohang_ul li:first-child img{
+	border-radius: 50%;
+	vertical-align: middle;
+	margin-top: -3px;
+}
+.search_area{
+	display: inline-block;
+	float:right;
+	margin-top: 14px;
+	margin-right:40px;
+	line-height: 23px;
+	height: 30px;
+}
+.solrSearch_form{
+	display: inline-block;
+    position: relative;
+    width: 190px;
+}
+.solrSearch_form input{
+	border-radius: 4px;
+    outline: none;
+    border: 0px;
+    width: 160px;
+    position: absolute;
+    right: 0;
+    padding-left:25px;
+    padding-top: 2px;
+    padding-bottom: 2px;
+}
+.solrSearch_form button{
+	width: 25px;
+    height: 25px;
+    line-height: 30px;
+    border: 0;
+    background: none;
+    cursor: pointer;
+    text-align: center;
+    font-size: 13px;
+    color: #51e0c1;
+    position: absolute;
+    left: 30;
+    top: 1;
+    outline: none;
+}

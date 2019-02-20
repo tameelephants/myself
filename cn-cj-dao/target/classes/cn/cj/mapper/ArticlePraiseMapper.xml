@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.cj.dao.ArticlePraiseMapper">
+	<resultMap id="BaseResultMap" type="cn.cj.entity.ArticlePraise">
+		<id column="article_praise_id" jdbcType="BIGINT" property="articlePraiseId" />
+		<result column="article_praise_create_time" jdbcType="TIMESTAMP" property="articlePraiseCreateTime" />
+		<result column="article_praiser" jdbcType="BIGINT" property="articlePraiser" />
+		<result column="article_id" jdbcType="BIGINT" property="articleId" />
+	</resultMap>
+	
+	<sql id="Base_Column_List">
+		article_praise_id, article_praise_create_time, article_praiser, article_id
+	</sql>
+	
+	<select id="selectByPrimaryKey" parameterType="java.lang.Long"
+		resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from article_praise
+		where article_praise_id = #{articlePraiseId,jdbcType=BIGINT}
+	</select>
+	
+	
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+		delete from article_praise
+		where article_praise_id = #{articlePraiseId,jdbcType=BIGINT}
+	</delete>
+	
+	
+	<insert id="insertSelective" parameterType="cn.cj.entity.ArticlePraise">
+		insert into article_praise
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="articlePraiseId != null">
+				article_praise_id,
+			</if>
+			<if test="articlePraiseCreateTime != null">
+				article_praise_create_time,
+			</if>
+			<if test="articlePraiser != null">
+				article_praiser,
+			</if>
+			<if test="articleId != null">
+				article_id,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="articlePraiseId != null">
+				#{articlePraiseId,jdbcType=BIGINT},
+			</if>
+			<if test="articlePraiseCreateTime != null">
+				#{articlePraiseCreateTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="articlePraiser != null">
+				#{articlePraiser,jdbcType=BIGINT},
+			</if>
+			<if test="articleId != null">
+				#{articleCreateTime,jdbcType=BIGINT},
+			</if>
+		</trim>
+	</insert>
+	
+	
+	<update id="updateByPrimaryKey" parameterType="cn.cj.entity.ArticlePraise">
+		update article_praise
+		<set>
+			<if test="articlePraiseCreateTime != null">
+				article_praise_createTime = #{articlePraiseCreateTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="articlePraiser != null">
+				article_praiser = #{articlePraiser,jdbcType=BIGINT},
+			</if>
+			<if test="articleId != null">
+				article_id = #{articleId,jdbcType=BIGINT},
+			</if>
+		</set>
+		where article_praise_id = #{articlePraiseId,jdbcType=BIGINT}
+	</update>
+
+	
+</mapper>

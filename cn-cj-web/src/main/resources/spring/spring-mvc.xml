@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xmlns:p="http://www.springframework.org/schema/p"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:mvc="http://www.springframework.org/schema/mvc"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans       	  
+           http://www.springframework.org/schema/beans/spring-beans.xsd
+           http://www.springframework.org/schema/aop
+       	   http://www.springframework.org/schema/aop/spring-aop-3.2.xsd
+       	   http://www.springframework.org/schema/context
+       	   http://www.springframework.org/schema/context/spring-context-3.2.xsd
+       	   http://www.springframework.org/schema/mvc
+       	   http://www.springframework.org/schema/mvc/spring-mvc-3.2.xsd">
+       <!-- 扫描控制层注解 -->
+   	   <context:component-scan base-package="cn.cj.controller.*"/>
+  	   <!-- 
+  	   		筛选静动态文件     
+  	   		如果是静态文件交给Web应用服务器默认的Servlet处理 
+  	   		如果是动态资源交给DispatcherServlet处理
+  	   		等同于<mvc:resources  location="/statics/" mapping="/statics/**"/> 
+  	   -->
+  	   <!-- 
+  	   		<mvc:default-servlet-handler></mvc:default-servlet-handler> 
+  	   -->
+  	  <mvc:resources location="/statics/" mapping="/statics/**"/>
+   	   <!-- 资源多种表现形式设置(视图解析器) -->
+       <bean class="org.springframework.web.servlet.view.ContentNegotiatingViewResolver">
+			<property name="favorParameter" value="true" />
+			<property name="defaultContentType" value="text/html" />
+			<property name="mediaTypes">
+				<map>
+					<entry key="html" value="text/html;charset=UTF-8" />
+					<entry key="json" value="application/json;charset=UTF-8" />
+					<entry key="xml" value="application/xml;charset=UTF-8" />
+				</map>
+			</property>
+			
+			<property name="viewResolvers">
+				<list>
+					<bean
+						class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+						<!--可为空,方便实现自已的依据扩展名来选择视图解释类的逻辑 -->
+						<property name="prefix" value="/WEB-INF/view/" />
+						<property name="suffix" value=".jsp" />   
+					</bean>
+				</list>
+			</property>
+		</bean>
+		
+       <!-- 全局异常跳转 -->
+       <!-- <bean class="org.springframework.web.servlet.handler.SimpleMappingExceptionResolver">
+       		<property name="exceptionMappings">
+       			<props>
+       				跳转到的页面
+       				<prop key="java.lang.RuntimeException">redirect:login.jsp</prop>
+       			</props>
+       		</property>
+       </bean> -->
+       
+       <!-- 文件上传 -->
+      <bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+       		<!-- 字符编码 -->
+       		<property name="defaultEncoding"  value="utf-8"/>
+       		<!-- 最大值 -->
+       		<property name="maxUploadSize" value="500000000"/>
+       		<property name="maxInMemorySize" value="4096" />
+       </bean>
+       
+      	<!-- 拦截器定义 -->
+       <!-- <mvc:interceptors>
+      		<mvc:interceptor>
+      			拦截格式
+      			<mvc:mapping path="/*/sys/**"/>
+      			<bean class="cn.wj.interceptor.SysInterceptor"/>
+      		</mvc:interceptor>
+      	</mvc:interceptors> -->
+      	
+      	<!-- 注解映射支持 -->
+      	<mvc:annotation-driven>
+	   		<mvc:message-converters>
+	   			<!-- 解决中文乱码(消息转换器) -->
+	   		    <bean class="org.springframework.http.converter.StringHttpMessageConverter">
+	   				<property name="supportedMediaTypes">
+	   					<list>
+	   						<value>application/json;charset=UTF-8</value>
+	   					</list>
+	   				</property>
+	   			</bean>
+	   			<!-- 全局修改时间转换日期格式配置 -->
+	   			<!-- <bean class="org.springframework.http.converter.json.MappingJacksonHttpMessageConverter">
+                	 <property name="objectMapper" ref="customObjectMapper"/>
+                	 <property name="supportedMediaTypes">
+	   					<list>
+	   						<value>*;charset=UTF-8</value>
+	   						<value>application/json</value>
+	   					</list>
+	   				</property>
+            	</bean> -->
+	   		</mvc:message-converters>
+   		</mvc:annotation-driven>
+   		
+   		<!-- 字符串的日期格式转换 -->
+        <!-- <bean id="conversionService" class="org.springframework.context.support.ConversionServiceFactoryBean">  
+   			<property name="converters">  
+       			<list>  
+         	 		<bean class="cn.wj.converter.DateConverter"/>  
+       			</list>  
+   			</property>  
+    	</bean> -->
+    	
+    	<!-- 全局修改时间转换日期格式 -->
+        <!-- <bean id="customObjectMapper" class="cn.wj.converter.CustomObjectMapper"/> -->
+        
+</beans>

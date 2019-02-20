@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.cj.dao.LabelMapper">
+	<resultMap id="BaseResultMap" type="cn.cj.entity.Label">
+		<id column="label_id" jdbcType="BIGINT" property="labelId" />
+		<result column="label_name" jdbcType="VARCHAR" property="labelName" />
+		<result column="label_create_time" jdbcType="TIMESTAMP" property="labelCreateTime" />
+	</resultMap>
+	
+	<sql id="Base_Column_List">
+		label_id,label_name,label_create_time
+	</sql>
+	<select id="selectByPrimaryKey" parameterType="java.lang.Long"
+		resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from label
+		where label_id = #{labelId,jdbcType=BIGINT}
+	</select>
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+		delete from label
+		where label_id = #{labelId,jdbcType=BIGINT}
+	</delete>
+	<insert id="insertSelective" parameterType="cn.cj.entity.Label">
+		insert into article
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="labelId != null">
+				label_id,
+			</if>
+			<if test="labelName != null">
+				label_name,
+			</if>
+			<if test="labelCreateTime != null">
+				label_create_time,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="labelId != null">
+				#{labelId,jdbcType=BIGINT},
+			</if>
+			<if test="labelName != null">
+				#{labelName,jdbcType=VARCHAR},
+			</if>
+			<if test="labelCreateTime != null">
+				#{labelCreateTime,jdbcType=TIMESTAMP},
+			</if>
+		</trim>
+	</insert>
+	<update id="updateByPrimaryKeySelective" parameterType="cn.cj.entity.Label">
+		update article
+		<set>
+			<if test="labelName != null">
+				label_name = #{labelName,jdbcType=VARCHAR},
+			</if>
+			<if test="labelCreateTime != null">
+				label_create_time = #{labelCreateTime,jdbcType=TIMESTAMP},
+			</if>
+		</set>
+		where label_id = #{labelId,jdbcType=BIGINT}
+	</update>
+	
+	
+	
+	<!-- 获取所有标签 -->
+	<select id="selectAllLabelList" resultMap="BaseResultMap">
+		select * from label
+	</select>
+</mapper>

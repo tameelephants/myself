@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.cj.dao.PermissionsMapper">
+  <resultMap id="BaseResultMap" type="cn.cj.entity.Permissions">
+    <id column="permission_id" jdbcType="BIGINT" property="permissionId" />
+    <result column="permission_name" jdbcType="VARCHAR" property="permissionName" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    permission_id, permission_name
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from permissions
+    where permission_id = #{permissionId,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from permissions
+    where permission_id = #{permissionId,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="cn.cj.entity.Permissions">
+    insert into permissions (permission_id, permission_name)
+    values (#{permissionId,jdbcType=BIGINT}, #{permissionName,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="cn.cj.entity.Permissions">
+    insert into permissions
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="permissionId != null">
+        permission_id,
+      </if>
+      <if test="permissionName != null">
+        permission_name,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="permissionId != null">
+        #{permissionId,jdbcType=BIGINT},
+      </if>
+      <if test="permissionName != null">
+        #{permissionName,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="cn.cj.entity.Permissions">
+    update permissions
+    <set>
+      <if test="permissionName != null">
+        permission_name = #{permissionName,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where permission_id = #{permissionId,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="cn.cj.entity.Permissions">
+    update permissions
+    set permission_name = #{permissionName,jdbcType=VARCHAR}
+    where permission_id = #{permissionId,jdbcType=BIGINT}
+  </update>
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+   <!-- 通过用户角色获取当前用户权限列表 -->
+  <select id="getPermissionsByRoleName" resultMap="BaseResultMap">
+  	select p.permission_name from permissions p,roles r, role_permission rp
+	where p.permission_id = rp.peimission_id
+	and r.role_id = rp.role_id
+	and r.role_name = #{roleName,jdbcType=VARCHAR}
+  </select>
+</mapper>

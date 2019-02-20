@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.cj.dao.ReplyMapper">
+	<resultMap id="BaseResultMap" type="cn.cj.entity.Reply">
+		<id column="reply_id" jdbcType="BIGINT" property="replyId" />
+		<result column="comment_id" jdbcType="BIGINT" property="commentId" />
+		<result column="reply_content" jdbcType="VARCHAR" property="replyContent" />
+		<result column="reply_create_time" jdbcType="TIMESTAMP" property="replyCreateTime" />
+		<result column="replier" jdbcType="BIGINT" property="replier" />
+	</resultMap>
+	
+	<sql id="Base_Column_List">
+		reply_id, comment_id, reply_content, reply_create_time,replier
+	</sql>
+	
+	<select id="selectByPrimaryKey" parameterType="java.lang.Long"
+		resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from reply
+		where reply_id = #{replyId,jdbcType=BIGINT}
+	</select>
+	
+	
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+		delete from reply
+		where reply_id = #{replyId,jdbcType=BIGINT}
+	</delete>
+	
+	
+	<insert id="insertSelective" parameterType="cn.cj.entity.Reply">
+		insert into reply
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="replyId != null">
+				reply_id,
+			</if>
+			<if test="comment_id != null">
+				commentId,
+			</if>
+			<if test="reply_content != null">
+				replyContent,
+			</if>
+			<if test="reply_create_time != null">
+				replyCreateTime,
+			</if>
+			<if test="replier != null">
+				replier,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="replyId != null">
+				#{replyId,jdbcType=BIGINT},
+			</if>
+			<if test="commentId != null">
+				#{commentId,jdbcType=BIGINT},
+			</if>
+			<if test="replyContent != null">
+				#{replyContent,jdbcType=VARCHAR},
+			</if>
+			<if test="replyCreateTime != null">
+				#{replyCreateTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="replier != null">
+				#{replier,jdbcType=BIGINT},
+			</if>
+		</trim>
+	</insert>
+	
+	
+	<update id="updateByPrimaryKey" parameterType="cn.cj.entity.Reply">
+		update reply
+		<set>
+			<if test="commentId != null">
+				comment_id = #{commentId,jdbcType=BIGINT},
+			</if>
+			<if test="replyContent != null">
+				reply_content = #{replyContent,jdbcType=VARCHAR},
+			</if>
+			<if test="replyCreateTime != null">
+				reply_create_time = #{replyCreateTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="replier != null">
+				replier = #{replier,jdbcType=BIGINT},
+			</if>
+		</set>
+		where reply_id = #{replyId,jdbcType=BIGINT}
+	</update>
+	
+	
+	<!--  -->
+	<select id="selectReplyInfoByCommentId" resultMap="BaseResultMap">
+		select * from reply where comment_id = #{commentId,jdbcType=BIGINT}
+	</select>
+</mapper>
