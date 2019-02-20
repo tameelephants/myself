@@ -14,4 +14,4 @@ public interface CommentMapper {
 	int updateByPrimaryKey(Comment record);
 	
 	List<Comment> selectAllCommentByArticleId(Long articleId);
-}
+} 
