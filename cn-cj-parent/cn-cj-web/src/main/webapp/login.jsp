@@ -12,7 +12,7 @@
 	href="${pageContext.request.contextPath }/statics/layui/css/layui.css">
 <link type="text/css" rel="styleSheet"
 	href="<c:url value="/statics/css/login.css"></c:url>" />
-</head>
+</head> 
 <body>   
 	<div class="loginAll">
 		
