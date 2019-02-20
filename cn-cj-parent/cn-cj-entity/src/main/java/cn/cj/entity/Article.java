@@ -7,7 +7,7 @@ import java.util.List;
 public class Article implements Serializable{
 	private static final long serialVersionUID = 730303880829804895L;
 
-	private Long articleId;
+	private Long articleId; 
 
     private String articleTitle;
 
