@@ -1,4 +1,4 @@
-package cn.cj.service.article;
+﻿package cn.cj.service.article;
 
 import java.util.List;
 
@@ -30,3 +30,4 @@ public interface ArticleService {
 	Integer selectArticleTotalCount() throws Exception;
 
 }
+ 
