@@ -15,7 +15,7 @@ $(function(){
 	layui.use('carousel',function(){
 		var carousel = layui.carousel;
 		carousel.render({
-			elem:'#lunbo',	 //选择的容器
+			elem:'#lunbo',	 //选择的容器 
 			width:'99%',	 //容器宽度
 			arrow:'hover',   //always总显示,none不显示(左右箭头)
 			interval:2000,   //默认3000
