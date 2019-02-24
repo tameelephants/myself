@@ -2,6 +2,8 @@ package cn.cj.dao;
 
 import java.util.List;
 
+import org.apache.ibatis.annotations.Param;
+
 import cn.cj.entity.Comment;
 
 public interface CommentMapper {
@@ -13,5 +15,10 @@ public interface CommentMapper {
 
 	int updateByPrimaryKey(Comment record);
 	
-	List<Comment> selectAllCommentByArticleId(Long articleId);
+	/**
+	 * 获取评论集合
+	 * @param articleId,pageX,limit
+	 * @return commentList
+	 */
+	List<Comment> selectAllCommentByArticleId(@Param("articleId") Long articleId, @Param("pageX") Integer pageX, @Param("limit") Integer limit);
 }

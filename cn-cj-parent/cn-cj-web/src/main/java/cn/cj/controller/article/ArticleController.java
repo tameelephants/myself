@@ -16,12 +16,16 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.serializer.SerializerFeature;
 
 import cn.cj.entity.Article;
+import cn.cj.entity.Comment;
 import cn.cj.entity.Label;
 import cn.cj.service.article.ArticleService;
+import cn.cj.service.comment.CommentService;
 import cn.cj.service.label.LabelService;
 import cn.cj.tools.Constant;
+import cn.cj.tools.LayuiPage;
 
 @Controller
 @RequestMapping("article")
@@ -34,6 +38,9 @@ public class ArticleController {
 	
 	@Autowired
 	private LabelService labelService;
+
+	@Autowired
+	private CommentService commentService;
 	
 	//文章展示页面跳转
 //	@RequestMapping("articleInfos")
@@ -66,19 +73,20 @@ public class ArticleController {
 	 */
 	@RequestMapping("loadCommentAndOthers")
 	@ResponseBody
-	public String loadCommentAndOthers(@RequestParam("articleId") Long articleId){
+	public String loadCommentAndOthers(@RequestParam("articleId")Long articleId, int pages, int limit){
 		Map<String, Object> result = new HashMap<String, Object>();
 		try {
-			Article article = articleService.selectByPrimaryKey(articleId);
+			LayuiPage page = new LayuiPage(pages, limit);
+			List<Comment> commentList = commentService.selectAllCommentByArticleId(articleId,page);
 			result.put(Constant.ARTICLE_CODE, 1);
-			result.put("article", article);
+			result.put("commentList", commentList);
 		} catch (Exception e) {
 			result.put(Constant.ARTICLE_CODE, -1);
 			result.put(Constant.ARTICLE_INFO, "查询错误");
 			e.printStackTrace();
 		}
-		System.err.println(JSON.toJSONString(result));
-		return JSON.toJSONString(result);
+		System.err.println("geshi"+JSON.toJSONString(result,SerializerFeature.DisableCircularReferenceDetect));
+		return JSON.toJSONString(result,SerializerFeature.DisableCircularReferenceDetect);
 	}
 	
 }

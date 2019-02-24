@@ -1,20 +1,15 @@
-/*layui.use('layedit', function(){
-  var layedit = layui.layedit
-  ,$ = layui.jquery;
-  
-  //构建一个默认的编辑器
-  var index = layedit.build('LAY_demo1');
-  
-  $('.site-demo-layedit').on('click', function(){
-	  alert(layedit.getContent(index).trim()); //获取编辑器内容
-  });
-  
-});*/
 var path;
+var articleId = $("#articleId").val();;//文章Id
+var comment_controller = $(".nicknameAndImgs");
+const limit = 5;// 评论每页显示条目书
+var page;//第几页
+var ajaxInfo;
 $(function(){
 	path = $("#path").val();
+	page = 1;
 	//通过文章Id获取当前文章信息(点赞数),文章评论集合,文章回复集合
-	loadCommentAbout();
+	loadCommentAbout(page,limit);
+	comment_controller.append(ajaxInfo)
 	$(".tishi").html("当前没有上传图片");
 	$(document).on('click',function(){
 		$(".faceList").hide();
@@ -33,7 +28,7 @@ $(function(){
 			$(this).css("color","orange");
 		}
 	});
-	
+
 	//点击表情赋值到文本框
 	$(".faceList li").click(function(e){
 		e.stopPropagation();
@@ -104,52 +99,52 @@ $(function(){
 	});
 	//删除当前选中图片的提示框
 	$("li.layui-icon-picture-fine").hover(
-		function(){
-			layer.tips('点击图片可删除当前选择上传的图片', 'li.layui-icon-picture-fine', {
-				  tips: [1, '#3595CC'],
-				  time: 4000
-			});
-		},
-		function(){
-			layer.closeAll();
-		}
+			function(){
+				layer.tips('点击图片可删除当前选择上传的图片', 'li.layui-icon-picture-fine', {
+					tips: [1, '#3595CC'],
+					time: 4000
+				});
+			},
+			function(){
+				layer.closeAll();
+			}
 	);
-	
+
 	$(".fixbar li:nth-child(1)>a").hover(
-		function(){
-			layer.tips('联系站长','.fixbar li',{
-				tips: [1, '#3595CC'],
-				time: 4000
-			});
-		},
-		function(){
-			layer.closeAll();
-		}
+			function(){
+				layer.tips('联系站长','.fixbar li',{
+					tips: [1, '#3595CC'],
+					time: 4000
+				});
+			},
+			function(){
+				layer.closeAll();
+			}
 	);
 	$(".fixbar li:nth-child(2)>a").hover(
-		function(){
-			layer.tips('分享','.fixbar li',{
-				tips: [1, '#3595CC'],
-				time: 4000
-			});
-		},
-		function(){
-			layer.closeAll();
-		}
+			function(){
+				layer.tips('分享','.fixbar li',{
+					tips: [1, '#3595CC'],
+					time: 4000
+				});
+			},
+			function(){
+				layer.closeAll();
+			}
 	);
-	
+
 	$(".fixbar li:nth-child(3)>a").hover(
-		function(){
-			layer.tips('返回顶部','.fixbar li',{
-				tips: [1, '#3595CC'],
-				time: 4000
-			});
-		},
-		function(){
-			layer.closeAll();
-		}
+			function(){
+				layer.tips('返回顶部','.fixbar li',{
+					tips: [1, '#3595CC'],
+					time: 4000
+				});
+			},
+			function(){
+				layer.closeAll();
+			}
 	);
-	$(".praise_controller img").on('click',function(){
+	$("body").delegate('.praise','click',function(){
 		if($(this).attr("src") == path+"/statics/img/praiseBefore.png"){
 			//未点赞
 			$(this).attr("src",path+"/statics/img/praiseAfter.png");
@@ -186,6 +181,13 @@ $(function(){
 			}
 		});
 	});*/
+	$(".loadmore").click(function(){
+		page = ++page;
+		loadCommentAbout(page,limit)
+		if(ajaxInfo != null){
+			comment_controller.append(ajaxInfo);
+		}
+	});
 });
 
 //获取图片地址
@@ -203,70 +205,84 @@ function getObjectURL(file){
 
 
 //通过文章Id获取当前文章信息(点赞数),文章评论集合,文章回复集合
-function loadCommentAbout(){
-	var comment_controller = $(".comment_controller");
-	alert(path)
+function loadCommentAbout(page,limit){
 	$.ajax({
 		url:path + "/article/loadCommentAndOthers",
-		data:{articleId:22},
+		data:{
+			articleId:articleId,
+			pages:page,
+			limit:limit
+		},
+		async:false,
 		//通过文章编号查询出当前文章的所有评论集合(回复集合),点赞数,评论点赞数
 		success:function(data){
+//			var returnComment = appendCommentHtml(data);
+//			if(returnOne != null){
+//				comment_controller.append(returnComment[0]);
+//				praise_controller.append(returnComment[1]);
+//			}
+			var commentList = data.commentList;
 			if(data.ARTICLE_CODE == 1){
-				comment_controller.html("");
-				var article = data.article;
-				for (var i = 0; i < article.commentList.length; i++) {
-					if(article.commentList[i].reply != null){
-						comment_controller.append("<div class='nicknameAndImg'>"+
-								"<div class='nicknameAndImg_controller'>"+
-								"<img alt='头像' title='头像' src='"+ path + article.commentList[i].commentor.userImg +"'>"+
-								"<p>"+ article.commentList[i].commentor.userName +"</p>"+
-								"<p>"+ article.commentList[i].commentCreateTime +"</p>"+
-							"</div>"+
-							"<div class='contextAndPraise'>"+
-								"<div class='commendConetnt'>"+ article.commentList[i].commentContent +"</div>"+
-								
-								"<div class='replyContent'>" +
-									"<span><span style='color:red; font-weight:700;'>作者回复:</span>"+ article.commentList[i].reply.replyContent +"</span>"+
-								"</div>"+
-								
-								"<div class='praise_controller'>"+
-									"<img alt='' width='30px' height='30px' src='"+ path +"/statics/img/praiseBefore.png'><span style='font-weight: 700; color:rgb(138,138,138)'>20</span>"+
-								"</div>"+
-							"</div>"+
-						"</div>");
+				var listOnes = [];
+				var listOne = "";
+				for (var i = 0; i < commentList.length; i++) {
+					if(commentList[i].reply != null){
+						listOne = "<div class='nicknameAndImg'>"+
+						"<div class='nicknameAndImg_controller'>"+
+						"<img alt='头像' title='头像' src='"+ path + commentList[i].commentor.userImg +"'>"+
+						"<p>"+ commentList[i].commentor.userName +"</p>"+
+						"<p>"+ commentList[i].commentCreateTime +"</p>"+
+						"</div>"+
+						"<div class='contextAndPraise'>"+
+						"<div class='commendConetnt'>"+ commentList[i].commentContent +"</div>"+
+
+						"<div class='replyContent'>" +
+						"<span><span style='color:red; font-weight:700;'>作者回复:</span>"+ commentList[i].reply.replyContent +"</span>"+
+						"</div>"+
+						"</div>"+
+						"<div class='praise_controller'>"+
+						"<img alt='' width='30px' height='30px' class='praise' src='"+ path +"/statics/img/praiseBefore.png'><span style='font-weight: 700; color:rgb(138,138,138)'>20</span>"+
+						"</div>"+
+						"</div>"
 					}else{
-						comment_controller.append("<div class='nicknameAndImg'>"+
-								"<div class='nicknameAndImg_controller'>"+
-								"<img alt='头像' title='头像' src='"+ path + article.commentList[i].commentor.userImg +"'>"+
-								"<p>"+ article.commentList[i].commentor.userName +"</p>"+
-								"<p>"+ article.commentList[i].commentCreateTime +"</p>"+
-							"</div>"+
-							"<div class='contextAndPraise'>"+
-								"<div class='commendConetnt'>"+ article.commentList[i].commentContent +"</div>"+
-								
-								"<shiro:hasRole name='admin'>"+
-									"<span class='reply'>回复</span>"+
-								"</shiro:hasRole>"+
-							
-								"<div class='replyInfo' style='display: none;'>"+
-									"<input class='replyInput' placeholder='在此进行回复' name='' value='' style='display: inline-block;' />"+
-									"<button type='button' class='layui-btn layui-btn-sm replyCommit' style='display: inline-block;'>提交</button>"+
-								"</div>"+
-								
-								"<div class='praise_controller'>"+
-									"<img alt='' width='30px' height='30px' src='"+ path +"/statics/img/praiseBefore.png'><span style='font-weight: 700; color:rgb(138,138,138)'>20</span>"+
-								"</div>"+
-							"</div>"+
-						"</div>");
+						listOne = "<div class='nicknameAndImg'>"+
+						"<div class='nicknameAndImg_controller'>"+
+						"<img alt='头像' title='头像' src='"+path+commentList[i].commentor.userImg +"'>"+
+						"<p>"+ commentList[i].commentor.userName +"</p>"+
+						"<p>"+ commentList[i].commentCreateTime +"</p>"+
+						"</div>"+
+						"<div class='contextAndPraise'>"+
+						"<div class='commendConetnt'>"+ commentList[i].commentContent +"</div>"+
+
+						"<shiro:hasRole name='admin'>"+
+						"<span class='reply'>回复</span>"+
+						"</shiro:hasRole>"+
+
+						"<div class='replyInfo' style='display: none;'>"+
+						"<input class='replyInput' placeholder='在此进行回复' name='' value='' style='display: inline-block;' />"+
+						"<button type='button' class='layui-btn layui-btn-sm replyCommit' style='display: inline-block;'>提交</button>"+
+						"</div>"+
+						"</div>"+
+						"<div class='praise_controller'>"+
+						"<img alt='' width='30px' height='30px' class='praise' src='"+ path +"/statics/img/praiseBefore.png'><span style='font-weight: 700; color:rgb(138,138,138)'>"+ commentList[i].praiseNum +"</span>"+
+						"</div>"+
+						"</div>"
 					}
-					
+					listOnes.push(listOne);
 				}
+				ajaxInfo = listOnes;
 			}else if(data.ARTICLE_CODE == -1){
 				layer.msg(data.ARTICLE_INFO,{icon:2});
+				ajaxInfo = null;
 			}else{
 				layer.msg("系统错误",{icon:2});
+				ajaxInfo = null;
 			}
-		},
-		error:alert("失败")
+		}
 	});
+}
+
+
+function appendCommentHtml(data){
+	
 }

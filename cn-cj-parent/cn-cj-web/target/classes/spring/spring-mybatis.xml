@@ -123,11 +123,11 @@
 	<tx:advice id="txAdvice" transaction-manager="txManager">
 		<tx:attributes>
 			<tx:method name="add*" isolation="REPEATABLE_READ"
-				rollback-for="Exception" />
+				rollback-for="ServiceException" />
 			<tx:method name="update*" isolation="REPEATABLE_READ"
-				rollback-for="Exception" />
+				rollback-for="ServiceException" />
 			<tx:method name="delete*" isolation="REPEATABLE_READ"
-				rollback-for="Exception" />
+				rollback-for="ServiceException" />
 			<tx:method name="get*" isolation="REPEATABLE_READ"
 				read-only="true" />
 			<tx:method name="*" isolation="REPEATABLE_READ"

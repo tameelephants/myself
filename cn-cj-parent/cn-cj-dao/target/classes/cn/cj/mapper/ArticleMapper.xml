@@ -35,7 +35,7 @@
 		<!-- 发布人映射 一对一 -->
 		<association column="article_author" property="userCreater" javaType="cn.cj.entity.User" select="cn.cj.dao.UserMapper.selectByPrimaryKey"></association>
 		<!-- 评论映射 一对多 -->
-		<collection column="article_id" property="commentList" ofType="Map" select="cn.cj.dao.CommentMapper.selectAllCommentByArticleId"></collection>
+		<!-- <collection column="article_id" property="commentList" ofType="Map" select="cn.cj.dao.CommentMapper.selectAllCommentByArticleId"></collection> -->
 	</resultMap>
 	<!-- <resultMap type="cn.cj.entity.Article" id="selectUserInfoAndArticle">
 		<association property="userAuthor" column="article_author" javaType="map" select="selectUserInfoByAuthor">

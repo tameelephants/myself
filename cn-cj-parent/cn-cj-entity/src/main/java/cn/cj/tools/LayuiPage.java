@@ -37,7 +37,7 @@ public class LayuiPage {
 	 * @return
 	 */
 	public Integer getPageX() {
-		return (page-1)*limit;
+		return (page-1)*limit > 0 ? (page-1)*limit : 0;
 	}
 	public void setPageX(Integer pageX) {
 		this.pageX = pageX;
@@ -65,5 +65,10 @@ public class LayuiPage {
 		this.keyWords = keyWords;
 		this.startTime = startTime;
 		this.endTime = endTime;
+	}
+	public LayuiPage(Integer page, Integer limit){
+		super();
+		this.page = page;
+		this.limit = limit;
 	}
 }
