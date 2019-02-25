@@ -85,7 +85,6 @@ public class ArticleController {
 			result.put(Constant.ARTICLE_INFO, "查询错误");
 			e.printStackTrace();
 		}
-		System.err.println("geshi"+JSON.toJSONString(result,SerializerFeature.DisableCircularReferenceDetect));
 		return JSON.toJSONString(result,SerializerFeature.DisableCircularReferenceDetect);
 	}
 	
