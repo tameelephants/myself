@@ -3,7 +3,7 @@ package cn.cj.dao;
 import cn.cj.entity.ArticleContentImg;
 
 public interface ArticleContentImgMapper {
-	
+	 
 	int deleteByPrimaryKey(Long articleContentId);
 	
 	int insertSelective(ArticleContentImg record);
