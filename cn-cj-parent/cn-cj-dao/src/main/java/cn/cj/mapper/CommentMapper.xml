@@ -102,9 +102,11 @@
 		where comment_id = #{commentId,jdbcType=BIGINT}
 	</update>
 	
-	<!-- 通过文章Id查询所有的评论集合 -->
-	<select id="selectAllCommentByArticleId" resultMap="BaseResultMap" parameterType="int">
-		select * from comment where article_id = #{articleId,jdbcType=BIGINT}
+	<!-- 获取评论集合（分页） -->
+	<select id="selectAllCommentByArticleId" resultMap="BaseResultMap">
+		select * from comment c where article_id = #{articleId,jdbcType=BIGINT}
+		limit #{pageX,jdbcType=INTEGER},#{limit,jdbcType=INTEGER}
 	</select>
+	
 	
 </mapper>
