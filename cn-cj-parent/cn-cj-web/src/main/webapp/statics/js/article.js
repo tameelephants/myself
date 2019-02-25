@@ -144,15 +144,58 @@ $(function(){
 				layer.closeAll();
 			}
 	);
-	$("body").delegate('.praise','click',function(){
+	
+	$(".article_praise_controller .dianzan").click(function(){
+		//未点赞
 		if($(this).attr("src") == path+"/statics/img/praiseBefore.png"){
-			//未点赞
 			$(this).attr("src",path+"/statics/img/praiseAfter.png");
 			$(this).next("span").attr("style","font-weight:700;color:rgb(18,150,219)");
 			var praiseNum = parseInt($(this).next("span").text());
-			$(this).next("span").html(praiseNum+1);
+			var praiseNums = praiseNum + 1;
+			$(this).next("span").html(praiseNums);
+			$.ajax({
+				url:'doPraiseAboutArticle',
+				data:{
+					articleId:articleId,
+					praiseNum:praiseNums
+				},
+				success:function(data){
+					console.log(data)
+				},error:alert("失败")
+			});
+		//已点赞
 		}else{
+			return;
+		}
+	});
+	/*
+	 * 评论点赞事件
+	 */
+	$("body").delegate('.praise','click',function(){
+		//未点赞
+		if($(this).attr("src") == path+"/statics/img/praiseBefore.png"){
+			$(this).attr("src",path+"/statics/img/praiseAfter.png");
+			$(this).next("span").attr("style","font-weight:700;color:rgb(18,150,219)");
+			var praiseNum = parseInt($(this).next("span").text());
+			var praiseNums = praiseNum + 1;
+			$(this).next("span").html(praiseNums);
+			var commentId = $(this).prev().val();
+			$.ajax({
+				url:path+'/article/doPraiseAboutComment',
+				data:{
+					commentId:commentId,
+					praiseNum:praiseNums
+				},
+				success:function(data){
+					if(data.COMMENT_CODE == "1"){
+						layer.msg(data.COMMENT_INFO,{icon:1});
+					}else{
+						layer.msg(data.COMMENT_INFO,{icon:2});
+					}
+				}
+			});
 			//已点赞
+		}else{
 			return;
 		}
 	});
@@ -204,7 +247,7 @@ function getObjectURL(file){
 }
 
 
-//通过文章Id获取当前文章信息(点赞数),文章评论集合,文章回复集合
+//通过文章Id获取当前文章评论集合
 function loadCommentAbout(page,limit){
 	$.ajax({
 		url:path + "/article/loadCommentAndOthers",
@@ -216,16 +259,21 @@ function loadCommentAbout(page,limit){
 		async:false,
 		//通过文章编号查询出当前文章的所有评论集合(回复集合),点赞数,评论点赞数
 		success:function(data){
-//			var returnComment = appendCommentHtml(data);
-//			if(returnOne != null){
-//				comment_controller.append(returnComment[0]);
-//				praise_controller.append(returnComment[1]);
-//			}
 			var commentList = data.commentList;
+			var isPraise = data.praiseList;
 			if(data.ARTICLE_CODE == 1){
 				var listOnes = [];
 				var listOne = "";
+				var imgChoose = "";
+				var spanCss = ""
 				for (var i = 0; i < commentList.length; i++) {
+					if(isPraise[i] == 0){
+						imgChoose = ""+ path +"/statics/img/praiseBefore.png";
+						spanCss = "font-weight:700;color: rgb(138,138,138);";
+					}else if(isPraise[i] == 1){
+						imgChoose = ""+ path +"/statics/img/praiseAfter.png";
+						spanCss = "font-weight:700;color:rgb(18,150,219)";
+					}
 					if(commentList[i].reply != null){
 						listOne = "<div class='nicknameAndImg'>"+
 						"<div class='nicknameAndImg_controller'>"+
@@ -241,7 +289,8 @@ function loadCommentAbout(page,limit){
 						"</div>"+
 						"</div>"+
 						"<div class='praise_controller'>"+
-						"<img alt='' width='30px' height='30px' class='praise' src='"+ path +"/statics/img/praiseBefore.png'><span style='font-weight: 700; color:rgb(138,138,138)'>20</span>"+
+							"<input type='hidden' value="+ commentList[i].commentId +" />"+
+							"<img alt='' width='30px' height='30px' class='praise' src="+ imgChoose +"><span style="+ spanCss +">"+ commentList[i].praiseNum +"</span>"+
 						"</div>"+
 						"</div>"
 					}else{
@@ -264,10 +313,12 @@ function loadCommentAbout(page,limit){
 						"</div>"+
 						"</div>"+
 						"<div class='praise_controller'>"+
-						"<img alt='' width='30px' height='30px' class='praise' src='"+ path +"/statics/img/praiseBefore.png'><span style='font-weight: 700; color:rgb(138,138,138)'>"+ commentList[i].praiseNum +"</span>"+
+							"<input type='hidden' value="+ commentList[i].commentId +" />"+
+							"<img alt='' width='30px' height='30px' class='praise' src="+ imgChoose +"><span style="+ spanCss +">"+ commentList[i].praiseNum +"</span>"+
 						"</div>"+
 						"</div>"
 					}
+					
 					listOnes.push(listOne);
 				}
 				ajaxInfo = listOnes;
@@ -282,7 +333,3 @@ function loadCommentAbout(page,limit){
 	});
 }
 
-
-function appendCommentHtml(data){
-	
-}

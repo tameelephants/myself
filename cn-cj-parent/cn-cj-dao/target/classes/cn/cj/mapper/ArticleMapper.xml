@@ -54,7 +54,7 @@
 		article_id, article_title, article_label, article_create_time, article_creater,
 		article_author,article_content,
 		article_delete_time, article_deleter, article_delete_flag, article_update_time,
-		article_updater
+		article_updater,
 		article_praise, article_click_num,article_bgimg,is_putaway
 	</sql>
 	<select id="selectByPrimaryKey" parameterType="java.lang.Long"

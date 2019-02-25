@@ -54,7 +54,7 @@
 				#{commentPraiser,jdbcType=BIGINT},
 			</if>
 			<if test="commentId != null">
-				#{commentCreateTime,jdbcType=BIGINT},
+				#{commentId,jdbcType=BIGINT},
 			</if>
 		</trim>
 	</insert>
@@ -77,4 +77,10 @@
 	</update>
 
 	
+	
+	
+	<!-- 查询某评论是否点过赞 -->
+	<select id="isDoPraise" resultType="int">
+		select count(1) from comment_praise where comment_id = #{commentId,jdbcType=BIGINT} and comment_praiser = #{userId,jdbcType=BIGINT}
+	</select>
 </mapper>

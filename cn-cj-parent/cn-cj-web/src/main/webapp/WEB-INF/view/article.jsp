@@ -21,8 +21,7 @@
 <body style="background-color: rgb(234, 234, 234)">
 	<input type="hidden" id="path"
 		value="${pageContext.request.contextPath }">
-	<input type="hidden" id="articleId"
-		value="22">
+	<input type="hidden" id="articleId" value="22">
 	<!-- public top -->
 	<%@ include file="common/index_top.jsp"%>
 	<div class="mainBody">
@@ -56,9 +55,16 @@
 				<div class="articleContent_controller">
 					<div>${article.articleContent }</div>
 					<!-- 个性签名 -->
-					<div
-						style="padding-top: 150px; padding-right: 150px; padding-bottom: 50px; text-align: right;">
+					<div class="gexing">
 						<p>好看的皮囊千变一律,有趣的灵魂万里挑一</p>
+						<div class='article_praise_controller'>
+							<qq:if test="${praiseNum == 0 }">
+								<img width='15px' class="dianzan" height='15px' src='${pageContext.request.contextPath }/statics/img/praiseBefore.png'><span class="articlePraiseSpanHui">${article.articlePraise }</span>
+							</qq:if>
+							<qq:if test="${praiseNum == 1 }">
+								<img width='15px' class="dianzan" height='15px' src='${pageContext.request.contextPath }/statics/img/praiseAfter.png'><span class=articlePraiseSpanBlue>${article.articlePraise }</span>
+							</qq:if>
+						</div>
 					</div>
 					<!-- commend -->
 					<div class="showImg">
@@ -232,7 +238,7 @@
 									</div>
 								</div> --%>
 								<div class="nicknameAndImgs"></div>
-								
+
 							</div>
 
 							<!-- load more -->

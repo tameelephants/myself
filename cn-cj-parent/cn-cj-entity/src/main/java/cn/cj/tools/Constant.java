@@ -9,5 +9,7 @@ public interface Constant {
 	String REGISTER_CODE = "REGISTER_CODE";//注册状态吗
 	String ARTICLE_CODE = "ARTICLE_CODE";//文章状态码
 	String ARTICLE_INFO = "ARTICLE_INFO";//文章提示信息
+	String COMMENT_INFO = "COMMENT_INFO";//文章提示信息
+	String COMMENT_CODE = "COMMENT_CODE";//文章状态码
 	
 }

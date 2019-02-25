@@ -54,7 +54,7 @@
 				#{articlePraiser,jdbcType=BIGINT},
 			</if>
 			<if test="articleId != null">
-				#{articleCreateTime,jdbcType=BIGINT},
+				#{articleId,jdbcType=BIGINT},
 			</if>
 		</trim>
 	</insert>
@@ -76,5 +76,10 @@
 		where article_praise_id = #{articlePraiseId,jdbcType=BIGINT}
 	</update>
 
+	
+	<!-- 查询当前用户是否点赞过某文章 -->
+	<select id="isDoPraise" resultType="int">
+		select count(1) from article_praise where article_praiser = #{userId,jdbcType=BIGINT} and article_id= #{articleId,jdbcType=BIGINT}
+	</select>
 	
 </mapper>

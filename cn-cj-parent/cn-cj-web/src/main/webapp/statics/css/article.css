@@ -11,6 +11,37 @@ a:hover{
 li{
 	list-style: none;
 }
+
+/* 文章点赞 start */
+.gexing{
+	padding-top: 150px; 
+	padding-right: 150px; 
+	padding-bottom: 50px; 
+	text-align: right;
+	position:relative;
+}
+.article_praise_controller{
+	position: absolute;
+    bottom: -20px;
+    right: 10px;
+    cursor: pointer;
+}
+.article_praise_controller span{
+	position: absolute;
+    top: 3;
+    font-size: 12px;
+    margin-left: 3px;
+}
+.articlePraiseSpanHui{
+	font-weight: 700; 
+	color: rgb(138, 138, 138);
+}
+.articlePraiseSpanBlue{
+	font-weight: 700; 
+	color: rgb(18,150,219) !important;
+}
+/* 文章点赞 end */
+
 .titleImg{
 	width:100%;
 	height:500px;
@@ -349,7 +380,7 @@ li{
     position:relative;
 }
 .nicknameAndImg_controller{
-	width:190px;
+	width:200px;
 }
 .nicknameAndImg>div p:nth-child(2){
 	color: rgb(0,0,0,0.8);
