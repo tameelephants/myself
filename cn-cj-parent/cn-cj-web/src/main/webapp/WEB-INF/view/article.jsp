@@ -16,6 +16,9 @@
 #footer {
 	background-color: rgb(234, 234, 234) !important;
 }
+.layui-layer-dialog{
+	top:30% !important;
+}
 </style>
 </head>
 <body style="background-color: rgb(234, 234, 234)">

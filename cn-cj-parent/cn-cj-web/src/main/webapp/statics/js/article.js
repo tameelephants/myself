@@ -41,8 +41,7 @@ $(function(){
 	$(".layui-btn-normal").click(function() {
 		var commentContext = $(".textarea").html();
 		if(commentContext == null || commentContext == ''){
-			layer.msg("评论不能为空!");
-			alert("评论不能为空!");
+			layer.msg("评论不能为空!",{icon:2});
 		}else{
 			$.ajax({
 				url : path+'/article/addComment',
@@ -51,8 +50,7 @@ $(function(){
 					articleId : articleId
 				},
 				success:function(data){
-					layer.msg(data.COMMENT_INFO);
-					alert("评论成功!");
+					layer.msg(data.COMMENT_INFO,{icon:1});
 				}
 			})
 			$(".textarea").html('');
