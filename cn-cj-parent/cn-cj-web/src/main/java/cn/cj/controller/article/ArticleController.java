@@ -157,4 +157,29 @@ public class ArticleController {
 		}
 		return JSON.toJSONString(result);
 	}
+	
+	/**
+	 * 添加文章评论信息
+	 * @param commentContext
+	 * @param articleId
+	 * @param session
+	 * @return
+	 */
+	@RequestMapping("addComment")
+	@ResponseBody
+	public String addComment(@RequestParam("commentContext")String commentContext,
+			@RequestParam("articleId")Long articleId,HttpSession session) {
+		Map<String, Object> result = new HashMap<>();
+		try {
+			commentService.addComment(commentContext,articleId,session);
+			result.put(Constant.COMMENT_INFO, "发表成功");
+			result.put(Constant.COMMENT_CODE, "1");
+		} catch (Exception e) {
+			e.printStackTrace();
+			result.put(Constant.COMMENT_INFO, "发表失败");
+			result.put(Constant.COMMENT_CODE, "0");
+		}
+		System.out.println(JSON.toJSONString(result));
+		return JSON.toJSONString(result);
+	}
 }

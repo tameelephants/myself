@@ -8,6 +8,8 @@
 <link rel="stylesheet"
 	href="${pageContext.request.contextPath }/statics/layui/css/layui.css">
 <body>
+	<input style="display: none;"
+		value="${pageContext.request.contextPath }" id="path">
 	<div style="border:1px red solid">哈哈哈</div>
 	
 	

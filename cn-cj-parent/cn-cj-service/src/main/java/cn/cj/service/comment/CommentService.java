@@ -2,6 +2,8 @@ package cn.cj.service.comment;
 
 import java.util.List;
 
+import javax.servlet.http.HttpSession;
+
 import cn.cj.entity.Comment;
 import cn.cj.tools.LayuiPage;
 
@@ -20,5 +22,14 @@ public interface CommentService {
 	 * @return Comment
 	 */
 	List<Comment> selectAllCommentByArticleId(Long articleId, LayuiPage page)  throws Exception;
+
+	/**
+	 * 添加文章评论信息
+	 * @param commentContext
+	 * @param articleId
+	 * @param session
+	 * @throws Exception
+	 */
+	void addComment(String commentContext, Long articleId, HttpSession session) throws Exception;
 
 }

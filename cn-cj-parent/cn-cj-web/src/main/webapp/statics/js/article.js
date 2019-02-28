@@ -37,6 +37,28 @@ $(function(){
 		$(".toolTab li").eq(0).css("color","black");
 		$(".toolTab li").eq(0).removeClass("shows");
 	});
+	//点击提交文章评论
+	$(".layui-btn-normal").click(function() {
+		var commentContext = $(".textarea").html();
+		if(commentContext == null || commentContext == ''){
+			layer.msg("评论不能为空!");
+			alert("评论不能为空!");
+		}else{
+			$.ajax({
+				url : path+'/article/addComment',
+				data:{
+					commentContext : commentContext,
+					articleId : articleId
+				},
+				success:function(data){
+					layer.msg(data.COMMENT_INFO);
+					alert("评论成功!");
+				}
+			})
+			$(".textarea").html('');
+		}
+	})
+	
 	var i = 1;
 	var objUrl = null;
 	$(".upload-file").change(function(){

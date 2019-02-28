@@ -68,7 +68,7 @@
 				#{commenter,jdbcType=BIGINT},
 			</if>
 			<if test="articleId != null">
-				#{articleCreateTime,jdbcType=BIGINT},
+				#{articleId,jdbcType=BIGINT},
 			</if>
 			<if test="commentCreateTime != null">
 				#{commentCreateTime,jdbcType=TIMESTAMP},
