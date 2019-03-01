@@ -6,6 +6,9 @@ import java.awt.Graphics;
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.Random;
 
 import javax.imageio.ImageIO;
@@ -145,7 +148,23 @@ public class OtherUtils {
 		ImageIO.write(image, "png", baos);
 		return baos.toByteArray();
 	}
-
+	
+	
+	/**
+	 * 获取时间差
+	 * @param date
+	 * @return
+	 */
+	public static int getMillisecondsDifferent(Date date){
+		Date nowDate = new Date();
+		Calendar d1 = new GregorianCalendar();
+		Calendar d2 = new GregorianCalendar();
+		d1.set(date.getYear(), date.getMonth(), date.getDate());
+		d2.set(nowDate.getYear(), nowDate.getMonth(), nowDate.getDate());
+		Long differentTimes = d2.getTime().getTime() - d1.getTime().getTime();
+		int differentDay = (int) (differentTimes/(3600*24*1000));
+		return differentDay;
+	}
 
 
 }

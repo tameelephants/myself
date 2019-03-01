@@ -61,7 +61,7 @@ public class ArticlePraiseServiceImpl implements ArticlePraiseService {
 			return articlePraiseMapper.updateByPrimaryKey(record);
 		} catch (Exception e) {
 			logger.debug("更新文章点赞失败");
-			throw new Exception();
+			throw new ServiceException("更新文章点赞失败",e);
 		}
 	}
 
@@ -81,7 +81,7 @@ public class ArticlePraiseServiceImpl implements ArticlePraiseService {
 			
 		} catch (Exception e) {
 			logger.debug("文章点赞失败");
-			throw new ServiceException("文章点赞失败");
+			throw new ServiceException("文章点赞失败",e);
 		}
 	}
 
@@ -89,8 +89,8 @@ public class ArticlePraiseServiceImpl implements ArticlePraiseService {
 		try {
 			return articlePraiseMapper.isDoPraise(articleId,userId);
 		} catch (Exception e) {
-			logger.debug("更新文章点赞失败");
-			throw new Exception();
+			logger.debug("查询文章点赞失败");
+			throw new ServiceException("查询文章点赞失败",e);
 		}
 	}
 

@@ -37,78 +37,11 @@ $(function(){
 		$(".toolTab li").eq(0).css("color","black");
 		$(".toolTab li").eq(0).removeClass("shows");
 	});
-	var i = 1;
-	var objUrl = null;
-	$(".upload-file").change(function(){
-		/*alert("文本改变事件: "+i);*/
-		objUrl = getObjectURL(this.files[0]);
-		if(objUrl){
-			if(i >= 4){
-				i==4;
-				$(".tishi").html("<span style='color:red;'>对不起,最多上传3张图片</span>");
-			}
-			else {
-				$(".tishi").html("当前上传第"+ i +"张图片(最多上传3张)");
-				$(".img" + i +"").attr("src",objUrl);
-				$(".img" + i +"").attr("style","opacity:1");
-				i++;
-			}
-		}
-	});
+	
 	var layer = null;
 	layui.use(['layer'],function(){
 		layer = layui.layer;
 	});
-	//单机图片删除事件
-	$(".showImg").on('click','img',function(){
-		var indexss = $(this).attr("ojbk");
-		if($(".showImg").children().eq(indexss-1).css("opacity") == 0 || $(".showImg").children().eq(indexss-1).css("opacity") == 0.01){
-			return;
-		}else{
-			layer.open({
-				title:'温馨提示',
-				content:'是否确认删除当前选中图片',
-				btn:['确定','取消'],
-				yes:function(index,layero){
-					if(($(".showImg").children().length)-indexss < 0){
-						$(".showImg").children().eq(0).css("opacity",0);
-					}else{
-						for(j = indexss-1; j < ($(".showImg").children().length)-1; j++){
-							//下一张图片赋值到前一张图片中,并且隐藏下一张图片
-							$(".showImg").children().eq(j).attr("src",$(".showImg").children().eq(j+1).attr("src"));
-						}
-						if($(".showImg").children().eq(1).css("opacity") == 1 && $(".showImg").children().eq(2).css("opacity") == 1){
-							$(".showImg").children().eq(2).css("opacity",0);
-						}else if($(".showImg").children().eq(1).css("opacity") == 1 && $(".showImg").children().eq(2).css("opacity") == 0){
-							$(".showImg").children().eq(1).css("opacity",0);
-						}else{
-							$(".showImg").children().eq(0).css("opacity",0);
-						}
-						i--;
-						if(i == 1){
-							$(".tishi").html("当前没有上传图片");
-							i = 1;
-						}else{
-							$(".tishi").html("当前上传第"+ (i-1) +"张图片(最多上传3张)");
-						}
-					}
-					layer.msg("删除成功!");
-				}
-			});
-		}
-	});
-	//删除当前选中图片的提示框
-	$("li.layui-icon-picture-fine").hover(
-			function(){
-				layer.tips('点击图片可删除当前选择上传的图片', 'li.layui-icon-picture-fine', {
-					tips: [1, '#3595CC'],
-					time: 4000
-				});
-			},
-			function(){
-				layer.closeAll();
-			}
-	);
 
 	$(".fixbar li:nth-child(1)>a").hover(
 			function(){
@@ -233,18 +166,6 @@ $(function(){
 	});
 });
 
-//获取图片地址
-function getObjectURL(file){
-	var url = null;
-	if(window.createObjectURL != undefined){
-		url = window.createObjectURL(file);
-	}else if(window.URL != undefined){
-		url = window.URL.createObjectURL(file);
-	}else if(window.webkitURL != undefined){
-		url = window.webketURL.createObjectURL(file);
-	}
-	return url;
-}
 
 
 //通过文章Id获取当前文章评论集合
@@ -279,7 +200,7 @@ function loadCommentAbout(page,limit){
 						"<div class='nicknameAndImg_controller'>"+
 						"<img alt='头像' title='头像' src='"+ path + commentList[i].commentor.userImg +"'>"+
 						"<p>"+ commentList[i].commentor.userName +"</p>"+
-						"<p>"+ commentList[i].commentCreateTime +"</p>"+
+						"<p>"+ getLocalTime(commentList[i].commentCreateTime) +"</p>"+
 						"</div>"+
 						"<div class='contextAndPraise'>"+
 						"<div class='commendConetnt'>"+ commentList[i].commentContent +"</div>"+
@@ -298,7 +219,7 @@ function loadCommentAbout(page,limit){
 						"<div class='nicknameAndImg_controller'>"+
 						"<img alt='头像' title='头像' src='"+path+commentList[i].commentor.userImg +"'>"+
 						"<p>"+ commentList[i].commentor.userName +"</p>"+
-						"<p>"+ commentList[i].commentCreateTime +"</p>"+
+						"<p>"+ getLocalTime(commentList[i].commentCreateTime) +"</p>"+
 						"</div>"+
 						"<div class='contextAndPraise'>"+
 						"<div class='commendConetnt'>"+ commentList[i].commentContent +"</div>"+
@@ -331,5 +252,17 @@ function loadCommentAbout(page,limit){
 			}
 		}
 	});
+}
+
+//格式化时间戳
+function getLocalTime(timestamp) {
+	    var date = new Date(timestamp);//时间戳为10位需*1000，时间戳为13位的话不需乘1000
+	    var Y = date.getFullYear() + '-';
+	    var M = (date.getMonth()+1 < 10 ? '0'+(date.getMonth()+1) : date.getMonth()+1) + '-';
+	    var D = date.getDate() < 10 ?  '0'+date.getDate()+ ' ' : date.getDate()+ ' ';
+	    var h = date.getHours() < 10 ? '0'+date.getHours()+ ':' : date.getHours()+ ':';
+	    var m = date.getMinutes() < 10 ? '0'+date.getMinutes()+ ':' : date.getMinutes()+ ':';
+	    var s = date.getSeconds()< 10 ? '0'+date.getSeconds() : date.getSeconds();
+	    return Y+M+D+h+m+s;
 }
 

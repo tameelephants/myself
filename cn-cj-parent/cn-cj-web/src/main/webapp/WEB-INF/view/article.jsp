@@ -34,7 +34,7 @@
 				<h3>${article.articleTitle }</h3>
 				<div class="authorInfo">
 					<span class="author">${article.userAuthor.userName }</span>
-					&nbsp;|&nbsp; <span class="dayAgo"><b>3</b>天前</span>
+					&nbsp;|&nbsp; <span class="dayAgo"><b>${day }</b>天前</span>
 				</div>
 			</div>
 		</div>
