@@ -63,6 +63,7 @@
 		<property name="filterChainDefinitions">
 			<value>
 				/user/login=anon
+				/article/*=authc
 				<!-- 注意!!! 任何页面如果设置了authc(认证),那么rembmberMe功能就会失效 因为rembmberMe=true不能表明你就是当前登录的用户, 
 					那么当当前用户关闭浏览器时,再次访问当前页面的时候,就需要登录 -->
 				<!-- /user/index=authc -->

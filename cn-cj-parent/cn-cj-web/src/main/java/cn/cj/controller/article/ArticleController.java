@@ -1,6 +1,7 @@
 package cn.cj.controller.article;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -31,6 +32,7 @@ import cn.cj.service.comment.CommentService;
 import cn.cj.service.label.LabelService;
 import cn.cj.tools.Constant;
 import cn.cj.tools.LayuiPage;
+import cn.cj.tools.OtherUtils;
 
 @Controller
 @RequestMapping("article")
@@ -72,6 +74,8 @@ public class ArticleController {
 				Label label = labelService.selectByPrimaryKey(Long.valueOf(labelNum[i]));
 				labelList.add(label);
 			}
+			int day = OtherUtils.getMillisecondsDifferent(article.getArticleCreateTime());
+			request.setAttribute("day", day);
 			request.setAttribute("praiseNum", praiseNum);
 			request.setAttribute("article", article);
 			request.setAttribute("labelList", labelList);
