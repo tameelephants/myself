@@ -4,6 +4,7 @@ var comment_controller = $(".nicknameAndImgs");
 const limit = 5;// 评论每页显示条目书
 var page;//第几页
 var ajaxInfo;
+
 $(function(){
 	path = $("#path").val();
 	page = 1;
