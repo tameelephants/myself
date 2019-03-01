@@ -10,7 +10,6 @@ $(function(){
 	//通过文章Id获取当前文章信息(点赞数),文章评论集合,文章回复集合
 	loadCommentAbout(page,limit);
 	comment_controller.append(ajaxInfo)
-	$(".tishi").html("当前没有上传图片");
 	$(document).on('click',function(){
 		$(".faceList").hide();
 		$(".toolTab li").eq(0).css("color","black");
