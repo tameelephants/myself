@@ -37,6 +37,7 @@ $(function(){
 		$(".toolTab li").eq(0).css("color","black");
 		$(".toolTab li").eq(0).removeClass("shows");
 	});
+	
 	//点击提交文章评论
 	$(".layui-btn-normal").click(function() {
 		var commentContext = $(".textarea").html();
