@@ -16,12 +16,15 @@
 #footer {
 	background-color: rgb(234, 234, 234) !important;
 }
+.layui-layer-dialog{
+	top:30% !important;
+}
 </style>
 </head>
 <body style="background-color: rgb(234, 234, 234)">
 	<input type="hidden" id="path"
 		value="${pageContext.request.contextPath }">
-	<input type="hidden" id="articleId" value="22">
+	<input type="hidden" id="articleId" value="${article.articleId }">
 	<!-- public top -->
 	<%@ include file="common/index_top.jsp"%>
 	<div class="mainBody">
@@ -67,12 +70,13 @@
 						</div>
 					</div>
 					<!-- commend -->
-					<div class="showImg">
+					<!-- <div class="showImg">
 						<img src="" width="120px" height="120px" class="img1" ojbk="1">
 						<img src="" width="120px" height="120px" class="img2" ojbk="2">
 						<img src="" width="120px" height="120px" class="img3" ojbk="3">
-					</div>
-					<h3 class="tishi"></h3>
+					</div> 
+					<h3 class="tishi"></h3>-->
+					<div></div>
 					<div class="commend">
 						<div class="faceList">
 							<ul>
@@ -181,15 +185,14 @@
 							</ul>
 						</div>
 						<div>
-							<form action="" method="post" enctype="multipart/form-data"
-								method="post">
+							<form action="javascript:void(0)" method="post">
 								<div class="toolTab">
 									<ul>
 										<li style="font-size: 20px;"
 											class="layui-icon layui-icon-face-smile" title="表情"></li>
-										<li style="font-size: 22px;"
+										<!-- <li style="font-size: 22px;"
 											class="layui-icon layui-icon-picture-fine" title="图片"><input
-											type="file" class="upload-file"></li>
+											type="file" class="upload-file"></li> -->
 									</ul>
 								</div>
 								<!-- contenteditable可以设置是否可以输入 -->

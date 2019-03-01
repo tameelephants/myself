@@ -1,6 +1,9 @@
 package cn.cj.service.comment;
 
+import java.util.Date;
 import java.util.List;
+
+import javax.servlet.http.HttpSession;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -9,6 +12,8 @@ import org.springframework.stereotype.Service;
 
 import cn.cj.dao.CommentMapper;
 import cn.cj.entity.Comment;
+import cn.cj.entity.User;
+import cn.cj.tools.Constant;
 import cn.cj.tools.LayuiPage;
 import cn.cj.tools.ServiceException;
 
@@ -68,6 +73,27 @@ public class CommentServiceImpl implements CommentService {
 		} catch (Exception e) {
 			logger.debug("获取评论集合失败");
 			throw new ServiceException("获取评论集合失败", e);
+		}
+	}
+
+	
+	public void addComment(String commentContext, Long articleId, HttpSession session) throws Exception {
+		try {
+			Comment comment = new Comment();
+			User user = (User) session.getAttribute(Constant.SESSION_USER);
+			comment.setArticleId(articleId);
+			if(commentContext != null) {
+				comment.setCommentContent(commentContext);
+				comment.setCommentCreateTime(new Date());
+				comment.setCommenter(user.getUserId());
+			    commentMapper.insertSelective(comment);
+			}else {
+				logger.debug("业务层评论不能为空!");
+			}
+			
+		} catch (Exception e) {
+			logger.debug("业务层评论失败");
+			throw new ServiceException("业务层评论文章失败", e);
 		}
 	}
 

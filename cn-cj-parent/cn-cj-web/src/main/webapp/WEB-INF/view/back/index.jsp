@@ -25,7 +25,8 @@
 				src="//t.cn/RCzsdCq" class="layui-nav-img">我</a>
 			<dl class="layui-nav-child">
 				<dd>
-					<a href="javascript:;">修改信息</a>
+					<a href="${pageContext.request.contextPath }/back/repairInfo" 
+						target="menuFrame">修改信息</a>
 				</dd>
 				<dd>
 					<a href="javascript:;">退出</a>
@@ -59,7 +60,8 @@
 			<li class="layui-nav-item"><a href="javascript:;">设置</a>
 				<dl class="layui-nav-child">
 					<dd>
-						<a href="javascript:;">基本信息</a>
+						<a href="${pageContext.request.contextPath }/back/repairInfo"
+							target="menuFrame">基本信息</a>
 					</dd>
 					<dd>
 						<a href="javascript:;">忘记密码</a>
@@ -74,7 +76,7 @@
 
 	<div class="center_controller">
 		<iframe id="menuFrame" name="menuFrame"
-			src="${pageContext.request.contextPath }/back/articleList"
+			src="${pageContext.request.contextPath }/back/repairInfo"
 			style="overflow: visible;" scrolling="yes" frameborder="no"
 			width="100%" height="100%;" />
 	</div>

@@ -84,6 +84,15 @@ public class BackController {
 	public String articleList(){
 		return "/back/articleList";
 	}
+	
+	/**
+	 * 进入个人中心修改页面(后台)
+	 * @return
+	 */
+	@RequestMapping("repairInfo")
+	public String repairInfo() {
+		return "back/repairInfo";
+	}
 
 	/**
 	 * 文章内容粘贴图片事件(后台)

@@ -22,7 +22,6 @@ li{
 }
 .article_praise_controller{
 	position: absolute;
-    bottom: -20px;
     right: 10px;
     cursor: pointer;
 }
@@ -356,7 +355,7 @@ li{
     display: inline-block;
     font-weight: 1000;
 } 
-.nicknameAndImg>div img{
+.nicknameAndImg_controller img{
 	border-radius:50%;
 	width:40px;
 	height:40px;

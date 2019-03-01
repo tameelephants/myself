@@ -38,6 +38,26 @@ $(function(){
 		$(".toolTab li").eq(0).removeClass("shows");
 	});
 	
+	//点击提交文章评论
+	$(".layui-btn-normal").click(function() {
+		var commentContext = $(".textarea").html();
+		if(commentContext == null || commentContext == ''){
+			layer.msg("评论不能为空!",{icon:2});
+		}else{
+			$.ajax({
+				url : path+'/article/addComment',
+				data:{
+					commentContext : commentContext,
+					articleId : articleId
+				},
+				success:function(data){
+					layer.msg(data.COMMENT_INFO,{icon:1});
+				}
+			})
+			$(".textarea").html('');
+		}
+	})
+	
 	var layer = null;
 	layui.use(['layer'],function(){
 		layer = layui.layer;

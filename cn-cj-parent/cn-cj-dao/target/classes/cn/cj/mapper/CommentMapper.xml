@@ -24,7 +24,7 @@
 		select
 		<include refid="Base_Column_List" />
 		from comment
-		where comment_id = #{commentId,jdbcType=BIGINT}
+		where comment_id = #{commentId,jdbcType=BIGINT} 
 	</select>
 	
 	
@@ -68,7 +68,7 @@
 				#{commenter,jdbcType=BIGINT},
 			</if>
 			<if test="articleId != null">
-				#{articleCreateTime,jdbcType=BIGINT},
+				#{articleId,jdbcType=BIGINT},
 			</if>
 			<if test="commentCreateTime != null">
 				#{commentCreateTime,jdbcType=TIMESTAMP},
@@ -105,8 +105,8 @@
 	<!-- 获取评论集合（分页） -->
 	<select id="selectAllCommentByArticleId" resultMap="BaseResultMap">
 		select * from comment c where article_id = #{articleId,jdbcType=BIGINT}
+		ORDER BY `comment_create_time` DESC
 		limit #{pageX,jdbcType=INTEGER},#{limit,jdbcType=INTEGER}
 	</select>
-	
 	
 </mapper>

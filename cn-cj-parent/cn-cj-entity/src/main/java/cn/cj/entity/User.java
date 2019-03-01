@@ -29,6 +29,8 @@ public class User  implements Serializable{
     private String isDisable;
 	
     private String userEmail;
+    
+    private Long userGender;
 
     public Long getUserId() {
         return userId;
@@ -109,4 +111,13 @@ public class User  implements Serializable{
     public void setUserEmail(String userEmail) {
         this.userEmail = userEmail == null ? null : userEmail.trim();
     }
+    
+	public Long getUserGender() {
+		return userGender;
+	}
+	@Field("user_gender")
+	public void setUserGender(Long userGender) {
+		this.userGender = userGender;
+	}
+    
 }
