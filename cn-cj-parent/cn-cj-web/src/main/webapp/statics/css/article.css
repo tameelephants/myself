@@ -8,6 +8,16 @@ a:hover{
 .mainBody{
 	background-color:rgb(234,234,234);
 }
+#header {
+	background-color: white !important;
+}
+
+#footer {
+	background-color: rgb(234, 234, 234) !important;
+}
+.layui-layer-dialog{
+	top:30% !important;
+}
 li{
 	list-style: none;
 }

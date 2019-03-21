@@ -156,6 +156,7 @@ function hidePwd(ow){
 }
 //翻转注册页面(表单翻转)
 function overturn(){
+	alert(1);
 	document.getElementById("tableIn_register").focus();
 	document.getElementById("verification").src= path + "/user/createverifyCode?hehe="+Math.random()
 	register_error.html("");

@@ -1,3 +1,4 @@
+
 var path;
 var articleId = $("#articleId").val();;//文章Id
 var comment_controller = $(".nicknameAndImgs");
@@ -37,7 +38,7 @@ $(function(){
 		$(".toolTab li").eq(0).removeClass("shows");
 	});
 	
-	//点击提交文章评论
+	//发表文章评论
 	$(".layui-btn-normal").click(function() {
 		var commentContext = $(".textarea").html();
 		if(commentContext == null || commentContext == ''){
@@ -53,6 +54,10 @@ $(function(){
 					layer.msg(data.COMMENT_INFO,{icon:1});
 				}
 			})
+			//刷新评论列表
+			loadCommentAbout(1,limit);
+			comment_controller.html("");
+			comment_controller.append(ajaxInfo);
 			$(".textarea").html('');
 		}
 	})
@@ -151,13 +156,32 @@ $(function(){
 			return;
 		}
 	});
-	$(".reply").on('click',function(){
-		$(this).next("div").css("display","block");
+	$("body").delegate('.reply','click',function(){
+		$(this).next(".replyInfo").css("display","block");
 	});
-	$(".replyCommit").on('click',function(){
-		/*$(this).parents(".replyInfo").css("display","none");
-		var replyValue = $(this).prev("input").val();*/
-		/*$(this).parents(".replyInfo").next(".replyContent").append("<span><span style='color:red; font-weight:700;'>作者回复:</span> "+ replyValue +"</span>");*/
+	$("body").delegate(".replyCommit",'click',function(){
+		$(this).parents(".replyInfo").css("display","none");
+		var replyValue = $(this).prev("input").val();
+		var commentId = $(this).parents(".contextAndPraise").next(".praise_controller").children("input").val();
+		$.ajax({
+			url:path+'/article/doReply',
+			data:{
+				commentId:commentId,
+				replyContext:replyValue
+			},
+			async:false,
+			success:function(data){
+				if(data.COMMENT_CODE == "1"){
+					layer.msg(data.COMMENT_INFO,{icon:1});
+				}else{
+					layer.msg(data.COMMENT_INFO,{icon:2});
+				}
+			}
+		});
+		//刷新评论列表
+		loadCommentAbout(1,limit);
+		comment_controller.html("");
+		comment_controller.append(ajaxInfo);
 	});
 	/*layui.use('util',function(){
 		var util = layui.util;
@@ -234,28 +258,28 @@ function loadCommentAbout(page,limit){
 						"</div>"+
 						"</div>"
 					}else{
-						listOne = "<div class='nicknameAndImg'>"+
-						"<div class='nicknameAndImg_controller'>"+
-						"<img alt='头像' title='头像' src='"+path+commentList[i].commentor.userImg +"'>"+
-						"<p>"+ commentList[i].commentor.userName +"</p>"+
-						"<p>"+ getLocalTime(commentList[i].commentCreateTime) +"</p>"+
-						"</div>"+
-						"<div class='contextAndPraise'>"+
-						"<div class='commendConetnt'>"+ commentList[i].commentContent +"</div>"+
+			  listOne = "<div class='nicknameAndImg'>"+
+						  "<div class='nicknameAndImg_controller'>"+
+						    "<img alt='头像' title='头像' src='"+path+commentList[i].commentor.userImg +"'>"+
+						    "<p>"+ commentList[i].commentor.userName +"</p>"+
+						    "<p>"+ getLocalTime(commentList[i].commentCreateTime) +"</p>"+
+						  "</div>"+
+						  "<div class='contextAndPraise'>"+
+						     "<div class='commendConetnt'>"+ commentList[i].commentContent +"</div>"+
+						     /*"<shiro:hasRole name='admin'>"+*/
+						     "<span class='reply'>回复</span>"+
+						     /*"</shiro:hasRole>"+*/
 
-						"<shiro:hasRole name='admin'>"+
-						"<span class='reply'>回复</span>"+
-						"</shiro:hasRole>"+
-
-						"<div class='replyInfo' style='display: none;'>"+
-						"<input class='replyInput' placeholder='在此进行回复' name='' value='' style='display: inline-block;' />"+
-						"<button type='button' class='layui-btn layui-btn-sm replyCommit' style='display: inline-block;'>提交</button>"+
-						"</div>"+
-						"</div>"+
-						"<div class='praise_controller'>"+
+							 "<div class='replyInfo' style='display: none;'>"+
+								"<input class='replyInput' placeholder='在此进行回复' name='' value='' style='display: inline-block;' />"+
+								"<button type='button' class='layui-btn layui-btn-sm replyCommit' style='display: inline-block;'>提交</button>"+
+							 "</div>"+
+						
+						  "</div>"+
+						  "<div class='praise_controller'>"+
 							"<input type='hidden' value="+ commentList[i].commentId +" />"+
 							"<img alt='' width='30px' height='30px' class='praise' src="+ imgChoose +"><span style="+ spanCss +">"+ commentList[i].praiseNum +"</span>"+
-						"</div>"+
+						  "</div>"+
 						"</div>"
 					}
 					
