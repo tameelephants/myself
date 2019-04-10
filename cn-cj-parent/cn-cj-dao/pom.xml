@@ -26,6 +26,23 @@ http://maven.apache.org/xsd/maven-4.0.0.xsd"
 		<commons-dbcp2.version>2.1.1</commons-dbcp2.version>
 	</properties>
 
+	<build>
+		<resources>
+			<resource>
+				<directory>src/main/resources</directory>
+				<includes>
+					<include>**/*</include>
+				</includes>
+			</resource>
+			<resource>
+				<directory>src/main/java</directory>
+				<includes>
+					<include>**/*.xml</include>
+				</includes>
+			</resource>
+		</resources>
+	</build>
+
 
 	<dependencies>
 
